@@ -6,18 +6,11 @@ model_list:
       api_version: "2025-01-01-preview"
       api_key: os.environ/AZURE_API_KEY
       base_model: gpt-4o
-      
-  # Add more models if needed
-  # - model_name: gpt-4
-  #   litellm_params:
-  #     model: azure/sf-ai  # Map to your deployment
-  #     api_base: https://bio-sf-ai.openai.azure.com
-  #     api_version: "2023-07-01-preview"
-  #     api_key: os.environ/AZURE_API_KEY
+      stream: false     # <---- THIS FIXES YOUR ERROR
 
 general_settings:
-  master_key: sk-1234  # Admin master key for management
-  
+  master_key: sk-1234
+
 litellm_settings:
   drop_params: true
   set_verbose: true
