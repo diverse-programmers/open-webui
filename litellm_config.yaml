@@ -6,7 +6,6 @@ model_list:
       api_version: "2025-01-01-preview"
       api_key: os.environ/AZURE_API_KEY
       base_model: gpt-4o
-      stream: false     # <---- THIS FIXES YOUR ERROR
 
 general_settings:
   master_key: sk-1234

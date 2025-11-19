@@ -38,6 +38,10 @@ services:
       # Enable user tracking headers for LiteLLM
       - ENABLE_FORWARD_USER_INFO_HEADERS=true
       
+      # WebSocket and Streaming Support
+      - ENABLE_WEBSOCKET_SUPPORT=true
+      - DISABLE_STREAMING=false
+      
       # Performance & CORS
       - CORS_ALLOW_ORIGIN=*
       - FORWARDED_ALLOW_IPS=*
