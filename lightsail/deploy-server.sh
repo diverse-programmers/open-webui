@@ -145,7 +145,7 @@ sudo tee /etc/nginx/sites-available/nextjs > /dev/null <<'EOF'
 server {
   listen 80;
   listen [::]:80;
-  server_name origin.dev.customer-service.app.bio-rad.com;
+  server_name origin.dev.owu.app.bio-rad.com;
 
   # let certbot http-01 work
   location ^~ /.well-known/acme-challenge/ { allow all; }
@@ -158,10 +158,10 @@ server {
 server {
   listen 443 ssl http2;
   listen [::]:443 ssl http2;
-  server_name origin.dev.customer-service.app.bio-rad.com;
+  server_name origin.dev.owu.app.bio-rad.com;
 
-  ssl_certificate     /etc/letsencrypt/live/origin.dev.customer-service.app.bio-rad.com/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/origin.dev.customer-service.app.bio-rad.com/privkey.pem;
+  ssl_certificate     /etc/letsencrypt/live/origin.dev.owu.app.bio-rad.com/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/origin.dev.owu.app.bio-rad.com/privkey.pem;
   include /etc/letsencrypt/options-ssl-nginx.conf;
   ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
@@ -176,7 +176,7 @@ server {
     proxy_set_header Connection "upgrade";
     
     # SNI/cert safety + real viewer host/proto to the app
-    proxy_set_header Host origin.customer-service.app.bio-rad.com;
+    proxy_set_header Host origin.owu.app.bio-rad.com;
     proxy_set_header X-Forwarded-Host $http_x_forwarded_host;
     proxy_set_header X-Forwarded-Proto $http_cloudfront_forwarded_proto;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -198,10 +198,10 @@ else
 fi
 
 # Check if SSL certificate exists, if not generate it
-if [ ! -f "/etc/letsencrypt/live/origin.dev.customer-service.app.bio-rad.com/fullchain.pem" ]; then
+if [ ! -f "/etc/letsencrypt/live/origin.dev.owu.app.bio-rad.com/fullchain.pem" ]; then
     print_status "Generating SSL certificate..."
     sudo ufw allow 'Nginx Full' || true
-    sudo certbot --nginx -d origin.dev.customer-service.app.bio-rad.com --redirect --agree-tos -m james_malin@bio-rad.com -n
+    sudo certbot --nginx -d origin.dev.owu.app.bio-rad.com --redirect --agree-tos -m james_malin@bio-rad.com -n
     print_success "SSL certificate obtained successfully"
 else
     print_warning "SSL certificate already exists"

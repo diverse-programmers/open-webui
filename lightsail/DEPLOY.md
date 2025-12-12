@@ -5,21 +5,21 @@ This guide explains how to use the `deploy.sh` script to deploy the Bio-Rad Cust
 ### DEV
 ```bash
 prod:
-ssh -i Customer-Inquiry.pem ubuntu@52.41.164.103
+ssh -i OpenWebUI-Prod.pem ubuntu@
 
 dev:
-ssh -i customer-inquiry-dev.pem ubuntu@54.214.101.235
+ssh -i OpenWebUI-Dev.pem ubuntu@54.70.56.188
 ```
 
 ### QA
 ```bash
-ssh -i customer-inquiry-qa.pem ubuntu@44.253.33.174
+ssh -i OpenWebUI-QA.pem ubuntu@
 ```
 
 ### RUN ON SERVER TO UPDATE:
 
 ```bash
-cd bio-rad-customer-service-cockpit
+cd open-webui
 git pull origin master
 pm2 stop 0
 npm run build
@@ -32,28 +32,32 @@ vi ~/.ssh/config
 ```
 
 ```text
-Host github-customer-inquiry
+Host github-open-webui
     HostName github.com
     User git
-    IdentityFile ~/.ssh/customer-inquiry
+    IdentityFile ~/.ssh/open-webui-deploy-key
     IdentitiesOnly yes
 ```
 
-Add the customer-inquiry and customer-inquiry.pub keys for github.
-
+Add the open-webui-deploy-key and open-webui-deploy-key.pub keys for github.
 ```bash
-chmod 600 ~/.ssh/customer-inquiry
-chmod 644 .ssh/customer-inquiry.pub
+scp -r ~/.ssh/open-webui-deploy-key ubuntu@54.70.56.188:~/.ssh/open-webui-deploy-key
+scp -r ~/.ssh/open-webui-deploy-key.pub ubuntu@54.70.56.188:~/.ssh/open-webui-deploy-key.pub
 ```
 
 Copy deploy-server.sh to server:
 ```bash
-scp -r deploy-server.sh ubuntu@44.253.33.174:~
+scp -r deploy-server.sh ubuntu@54.70.56.188:~
+```
+
+```bash
+chmod 600 ~/.ssh/open-webui-deploy-key
+chmod 644 ~/.ssh/open-webui-deploy-key.pub
 ```
 
 ```bash
 chmod +x deploy-server.sh
-./deploy-server.sh git@github-customer-inquiry:diverse-programmers/bio-rad-customer-service-cockpit gitcomplaints 44.253.33.174 3000
+./deploy-server.sh git@github-open-webui:diverse-programmers/open-webui.git 54.70.56.188 3000
 exit
 ```
 
@@ -65,7 +69,7 @@ node -v
 REMEMBER TO ADD THE .env
 NOTE: MAKE SURE YOU SET THE CORRECT "REDIRECT_URI"
 ```
-cd bio-rad-customer-service-cockpit
+cd open-webui
 vi .env
 npm run build
 pm2 start 0
@@ -131,7 +135,7 @@ This script will:
 
 Replace `YOUR_LIGHTSAIL_IP` with your actual Lightsail instance IP:
 ```bash
-scp -r ./deploy/* ubuntu@YOUR_LIGHTSAIL_IP:/home/ubuntu/bio-rad-customer-service-cockpit/
+scp -r ./deploy/* ubuntu@YOUR_LIGHTSAIL_IP:/home/ubuntu/open-webui/
 ```
 
 ### 3. Server Setup
@@ -143,7 +147,7 @@ ssh ubuntu@YOUR_LIGHTSAIL_IP
 
 2. Navigate to the application directory:
 ```bash
-cd /home/ubuntu/bio-rad-customer-service-cockpit
+cd /home/ubuntu/open-webui
 ```
 
 3. Run the start script:
